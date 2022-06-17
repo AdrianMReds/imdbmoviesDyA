@@ -5,7 +5,16 @@
 from scraper import Scraper
 from excelGen import ExcelGen
 
+#SOLID Principles
+#-Single Responsability-
+#Every class has a single responsability
+#Scraper is used to scrape the information from the IMDB web page
+#ExcelGen is used to generate and modify the excel file
+#Movie is used to store the movies information
+#MovieBuilder is used to create Movie objects
 
+#Open-Closed Principle
+#Code can be extended without modifying what is already done, we could add more functionality, like showing movies with X rating or less, or from certain year to certain year.
 
 def printMenu():
     print('What would you like to do?')
