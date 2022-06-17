@@ -67,7 +67,12 @@ def moviesByYear(s:Scraper, e:ExcelGen, y:str) -> ExcelGen:
 if __name__ == '__main__':
 
     egen = ExcelGen('IMDB Movies.xlsx')
-    s = Scraper('https://www.imdb.com/chart/top/')
+    # s = Scraper('https://www.imdb.com/chart/top/')
+    s = Scraper.getInstance()
+    # s2 = Scraper.getInstance()
+    # print(s)
+    # print(s2)
+    s.url = 'https://www.imdb.com/chart/top/'
     egen = s.scrape(egen)
 
     called = False

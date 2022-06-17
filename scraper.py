@@ -9,8 +9,22 @@ from movieBuilder import MovieBuilder
 class Scraper:
     movieList = []
 
-    def __init__(self, u) -> None:
-        self.url = u
+    __instance = None
+    url = ''
+
+
+    @staticmethod
+    def getInstance():
+        if Scraper.__instance == None:
+            Scraper()
+        return Scraper.__instance
+
+
+    def __init__(self) -> None:
+        if Scraper.__instance != None:
+            raise Exception('Scrpaer exists already!')
+        else:
+            Scraper.__instance = self
     
     def printList(self):
         for i in range(10):
