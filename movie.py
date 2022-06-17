@@ -1,10 +1,10 @@
 class Movie:
 
-    def __init__(self, rnk, na, yr, rtng ) -> None:
+    def __init__(self, rnk, n, y, rt) -> None:
         self.rank = rnk
-        self.name = na
-        self.year = yr
-        self.rating = rtng
+        self.name = n
+        self.year = y
+        self.rating = rt
     
     def __repr__(self) -> str:
         return("The movie {n} is from the year {year} has a rating of {rat}".format(n=self.name, year=self.year, rat=self.rating))

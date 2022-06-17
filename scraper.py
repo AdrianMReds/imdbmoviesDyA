@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup
 from pyrsistent import m
 import requests
 from excelGen import ExcelGen
-from movie import Movie
+# from movie import Movie
+from movieBuilder import MovieBuilder
+
 
 class Scraper:
     movieList = []
@@ -10,6 +12,12 @@ class Scraper:
     def __init__(self, u) -> None:
         self.url = u
     
+    def printList(self):
+        for i in range(10):
+            if(i<len(self.movieList)):
+                print(self.movieList[i])
+                print()
+
     def scrape(self, e:ExcelGen) -> ExcelGen:
         try:
             source = requests.get(self.url)
@@ -26,11 +34,16 @@ class Scraper:
                 rating = movie.find('td', class_='ratingColumn imdbRating').strong.text
 
                 e.appendToSheet(sn='IMDB Top 250 Movies', lst=[rank, name, year, rating])
-                mov = Movie(rank, name, year, rating)
+                # mov = Movie(rank, name, year, rating)
+                mov = MovieBuilder.item().setRank(rank).setName(name).setYear(year).setRating(rating).build()
                 self.movieList.append(mov)
+                print(mov)
+                # self.printList()
+            
+            # print(self.movieList)
 
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            print(ex)
         
         return e
 

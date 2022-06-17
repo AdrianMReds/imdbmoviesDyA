@@ -1,7 +1,7 @@
-#Adrián Montemayor Rojas
+#Adrián Montemayor Rojas A01283139
 #Iván Gonzalez Luján
 
-from movie import Movie
+# from movie import Movie
 from scraper import Scraper
 from excelGen import ExcelGen
 
