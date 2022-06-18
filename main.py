@@ -5,6 +5,7 @@
 from scraper import Scraper
 from excelGen import ExcelGen
 import sys
+import random
 
 #SOLID Principles
 
@@ -22,8 +23,9 @@ def printMenu():
     print('What would you like to do?')
     print('1. Top 250 Movies')
     print('2. Top 250 Movies in descending order')
-    print('3. Show movies by rating')
-    print('4. Show movies by year')
+    print('3. My preference movies')
+    print('4. Show movies by rating')
+    print('5. Show movies by year')
     print('0. Exit')
 
 #Print the top 250 movies in IMDB
@@ -73,8 +75,30 @@ def moviesByYear(s:Scraper, e:ExcelGen, y:str) -> ExcelGen:
     print("\nThis information has been captured on the excel file.\n")
     return e
 
-def moviePreferences(s:Scraper, e:ExcelGen, upk:int) -> ExcelGen:
-    pass
+def moviePreferences(s:Scraper, e:ExcelGen, upk:int, rat:bool=False) -> ExcelGen:
+    sn = 'My movie preferences'
+    e.createSheet(sn)
+    i = 'Movies I might like'
+    e.appendIt(sn, i)
+    pkm = []
+    for mo in s.movieList:
+        if mo.pref_key == upk:
+            pkm.append(mo) #Guardamos las películas con esa pref_key
+    
+
+    if rat:
+        for i in range(10):
+            print('{rnk}. {mn} {yr} {rtn}'.format(rnk=pkm[i].rank, mn=pkm[i].name, yr=pkm[i].year, rtn=pkm[i].rating))
+            e.appendToSheet(sn, [pkm[i].rank, pkm[i].name, pkm[i].year, pkm[i].rating])
+    else:
+        #Random sample of movies
+        samp = random.sample(pkm, 10)
+        for m in samp:
+            print('{rnk}. {mn} {yr} {rtn}'.format(rnk=m.rank, mn=m.name, yr=m.year, rtn=m.rating))
+            e.appendToSheet(sn, [m.rank, m.name, m.year, m.rating])
+    
+    print("\nThis information has been captured on the excel file.\n")
+    return e
 
 def getUserPrefKey(prefs:str):
     lst = prefs.split()
@@ -132,13 +156,29 @@ if __name__ == '__main__':
             egen = top250Desc(s,egen,called)
             called = True
         elif opt == 3:
+            print('Would you like to see the best rated movies or some random movies you would like?')
+            print('1 --> Best rated\n2 --> Random movies')
+            a = 0
+            while a!=1 and a!=2:
+                print('Pick 1 or 2')
+                try:
+                    a = int(input())
+                except:
+                    print('Invalid input')
+                    continue
+            if a==1:
+                egen = moviePreferences(s,egen, upk, True)
+            else:
+                egen = moviePreferences(s,egen, upk)
+            
+        elif opt == 4:
             print("I want to see movies with rating X or higher")
             r = float(input("X = "))
             if r < float(s.getMinRating()) or r > float(s.getMaxRating()):
                 print("There are no movies with this rating.")
                 continue
             egen = moviesByRating(s,egen,r)
-        elif opt == 4:
+        elif opt == 5:
             print("I want to see movies from the year Y")
             y = input('Y = ')
             if s.lookForMovies(y)==False:
