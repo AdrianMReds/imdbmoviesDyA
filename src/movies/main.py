@@ -1,9 +1,10 @@
 #Adrián Montemayor Rojas A01283139
 #Iván Gonzalez Luján A00823187
 
+import sys
 from scraper import Scraper
 from excelGen import ExcelGen
-import sys
+
 import random
 
 #SOLID Principles
