@@ -8,7 +8,7 @@ class ExcelGen:
     sheet.title = 'IMDB Top 250 Movies'
 
     sheet.append(['Search #1 and only one', ' ', ' ', ' '])
-    sheet.append(['Movie Rank', 'Movie Name', 'Year of Realease', 'IMDB Rating'])
+    sheet.append(['Preference_key', 'Movie Rank', 'Movie Name', 'Year of Realease', 'IMDB Rating'])
 
     def __init__(self, fn) -> None:
         self.fileName = fn

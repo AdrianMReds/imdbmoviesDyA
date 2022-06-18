@@ -1,6 +1,7 @@
 class Movie:
 
-    def __init__(self, rnk, n, y, rt) -> None:
+    def __init__(self, pk, rnk, n, y, rt) -> None:
+        self.pref_key = pk
         self.rank = rnk
         self.name = n
         self.year = y

@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup
-from pyrsistent import m
 import requests
 from excelGen import ExcelGen
-# from movie import Movie
 from movieBuilder import MovieBuilder
 
 
@@ -25,14 +23,9 @@ class Scraper:
             raise Exception('Scrpaer exists already!')
         else:
             Scraper.__instance = self
-    
-    def printList(self):
-        for i in range(10):
-            if(i<len(self.movieList)):
-                print(self.movieList[i])
-                print()
 
     def scrape(self, e:ExcelGen) -> ExcelGen:
+        counter = 0
         try:
             source = requests.get(self.url)
             source.raise_for_status()
@@ -42,16 +35,19 @@ class Scraper:
             movies = soup.find('tbody', class_='lister-list').find_all('tr')
 
             for movie in movies:
+                #Observando el código que nos proporcionó el profesor usamos el mismo método para asignar género o (preference_key)
+                pref_key = counter % 5 + 1
                 name = movie.find('td', class_='titleColumn').a.text
                 rank = movie.find('td', class_='titleColumn').get_text(strip=True).split('.')[0]
                 year = movie.find('td', class_='titleColumn').span.text.strip('()')
                 rating = movie.find('td', class_='ratingColumn imdbRating').strong.text
 
-                e.appendToSheet(sn='IMDB Top 250 Movies', lst=[rank, name, year, rating])
+                e.appendToSheet(sn='IMDB Top 250 Movies', lst=[pref_key, rank, name, year, rating])
                 # mov = Movie(rank, name, year, rating)
-                mov = MovieBuilder.item().setRank(rank).setName(name).setYear(year).setRating(rating).build()
+                mov = MovieBuilder.item().setPrefKey(pref_key).setRank(rank).setName(name).setYear(year).setRating(rating).build()
                 self.movieList.append(mov)
-                print(mov)
+                counter += 1
+                # print(mov)
                 # self.printList()
             
             # print(self.movieList)

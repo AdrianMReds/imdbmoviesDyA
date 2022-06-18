@@ -3,6 +3,7 @@ from movie import Movie
 class MovieBuilder:
     
     def __init__(self):
+        self.pref_key = 0
         self.rank = ''
         self. name = ''
         self.year = ''
@@ -11,6 +12,10 @@ class MovieBuilder:
     @staticmethod
     def item():
         return MovieBuilder()
+
+    def setPrefKey(self, pk):
+        self.pref_key = pk
+        return self
 
     def setRank(self, r):
         self.rank = r
@@ -29,4 +34,4 @@ class MovieBuilder:
         return self
     
     def build(self):
-        return Movie(self.rank, self.name, self.year, self.rating)
+        return Movie(self.pref_key ,self.rank, self.name, self.year, self.rating)

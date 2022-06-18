@@ -1,11 +1,13 @@
 #Adrián Montemayor Rojas A01283139
-#Iván Gonzalez Luján
+#Iván Gonzalez Luján A00823187
 
 # from movie import Movie
 from scraper import Scraper
 from excelGen import ExcelGen
+import sys
 
 #SOLID Principles
+
 #-Single Responsability-
 #Every class has a single responsability
 #Scraper is used to scrape the information from the IMDB web page
@@ -27,8 +29,8 @@ def printMenu():
 #Print the top 250 movies in IMDB
 def top250(s:Scraper) -> None:
     for m in s.movieList:
-        print('{rnk}. {mn} {yr} {rtn}'.format(rnk=m.rank, mn=m.name, yr=m.year, rtn=m.rating))
-        print()
+        print('{pk} {rnk}. {mn} {yr} {rtn}'.format(pk=m.pref_key, rnk=m.rank, mn=m.name, yr=m.year, rtn=m.rating))
+    print()
 
 #Print the top 250 movies in IMDB in descending order
 def top250Desc(s:Scraper, e:ExcelGen, called:bool=False) -> ExcelGen:
@@ -71,13 +73,25 @@ def moviesByYear(s:Scraper, e:ExcelGen, y:str) -> ExcelGen:
     print("\nThis information has been captured on the excel file.\n")
     return e
 
+def moviePreferences(s:Scraper, e:ExcelGen, upk:int) -> ExcelGen:
+    pass
 
+def getUserPrefKey(prefs:str):
+    lst = prefs.split()
+    for i in range(len(lst)):
+        try:
+            lst[i] = int(lst[i])
+        except Exception as ex:
+            return None
+    
+    u = ((lst[0]*lst[1]*lst[2])%5)+1
+    return u
 
 if __name__ == '__main__':
 
     egen = ExcelGen('IMDB Movies.xlsx')
-    # s = Scraper('https://www.imdb.com/chart/top/')
     s = Scraper.getInstance()
+    #Estas 3 líneas de código comentadas se escribieron para probas el singleton, si gusta probarlo puede descomentarlas
     # s2 = Scraper.getInstance()
     # print(s)
     # print(s2)
@@ -88,6 +102,19 @@ if __name__ == '__main__':
     opt = -1
 
     print("Welcome, please make sure to have the excel file closed.\n")
+
+    print('Choose your three movie preferences:\n1. Comedy\n2. Drama\n3. Sci-Fi\n4. Romantic\n5. Adventure\n')
+    print('Please introduce them in one line with spaces')
+    print('For example: 1 2 3')
+    ps = input()
+
+    if(getUserPrefKey(ps) != None):
+        upk = getUserPrefKey(ps)
+    else:
+        print('Your input was incorrect, please try running the program again')
+        sys.exit()
+
+    print('Your preference key is {}\n'.format(upk))
 
     while opt != 0:
         printMenu()
