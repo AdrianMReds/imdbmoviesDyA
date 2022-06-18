@@ -3,14 +3,14 @@ import requests
 from excelGen import ExcelGen
 from movieBuilder import MovieBuilder
 
-
+#Class responsible for scraping the information from the IMDB webpage
 class Scraper:
     movieList = []
 
     __instance = None
     url = ''
 
-
+    #Singleton implemented here
     @staticmethod
     def getInstance():
         if Scraper.__instance == None:
@@ -20,7 +20,7 @@ class Scraper:
 
     def __init__(self) -> None:
         if Scraper.__instance != None:
-            raise Exception('Scrpaer exists already!')
+            raise Exception('Scraper exists already!')
         else:
             Scraper.__instance = self
 
@@ -43,14 +43,9 @@ class Scraper:
                 rating = movie.find('td', class_='ratingColumn imdbRating').strong.text
 
                 e.appendToSheet(sn='IMDB Top 250 Movies', lst=[pref_key, rank, name, year, rating])
-                # mov = Movie(rank, name, year, rating)
                 mov = MovieBuilder.item().setPrefKey(pref_key).setRank(rank).setName(name).setYear(year).setRating(rating).build()
                 self.movieList.append(mov)
                 counter += 1
-                # print(mov)
-                # self.printList()
-            
-            # print(self.movieList)
 
         except Exception as ex:
             print(ex)

@@ -1,5 +1,7 @@
 import openpyxl
 
+#Class that manages everything about the excel file where we save the searches the user makes
+#Single Responsibility principle is seen here since this class is only responsible for the excel file code
 class ExcelGen:
     
     ex = openpyxl.Workbook()

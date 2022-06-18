@@ -1,7 +1,6 @@
 #Adrián Montemayor Rojas A01283139
 #Iván Gonzalez Luján A00823187
 
-# from movie import Movie
 from scraper import Scraper
 from excelGen import ExcelGen
 import sys
@@ -49,6 +48,7 @@ def top250Desc(s:Scraper, e:ExcelGen, called:bool=False) -> ExcelGen:
     print("\nThis information has been captured on the excel file.\n")
     return e
 
+#Print and save movies by X rating or higher
 def moviesByRating(s:Scraper, e:ExcelGen, r:float) -> ExcelGen:
     sn = 'Movies by Rating'
     e.createSheet(sn)
@@ -62,6 +62,7 @@ def moviesByRating(s:Scraper, e:ExcelGen, r:float) -> ExcelGen:
     print("\nThis information has been captured on the excel file.\n")
     return e
 
+#Print and save movies from a certain year
 def moviesByYear(s:Scraper, e:ExcelGen, y:str) -> ExcelGen:
     sn = 'Movies by Year'
     e.createSheet(sn)
@@ -75,6 +76,7 @@ def moviesByYear(s:Scraper, e:ExcelGen, y:str) -> ExcelGen:
     print("\nThis information has been captured on the excel file.\n")
     return e
 
+#Print movie preferences for the user based on its preference key
 def moviePreferences(s:Scraper, e:ExcelGen, upk:int, rat:bool=False) -> ExcelGen:
     sn = 'My movie preferences'
     e.createSheet(sn)
@@ -85,7 +87,6 @@ def moviePreferences(s:Scraper, e:ExcelGen, upk:int, rat:bool=False) -> ExcelGen
         if mo.pref_key == upk:
             pkm.append(mo) #Guardamos las películas con esa pref_key
     
-
     if rat:
         for i in range(10):
             print('{rnk}. {mn} {yr} {rtn}'.format(rnk=pkm[i].rank, mn=pkm[i].name, yr=pkm[i].year, rtn=pkm[i].rating))
@@ -100,6 +101,7 @@ def moviePreferences(s:Scraper, e:ExcelGen, upk:int, rat:bool=False) -> ExcelGen
     print("\nThis information has been captured on the excel file.\n")
     return e
 
+#Generate user preference key
 def getUserPrefKey(prefs:str):
     lst = prefs.split()
     for i in range(len(lst)):
@@ -111,6 +113,7 @@ def getUserPrefKey(prefs:str):
     u = ((lst[0]*lst[1]*lst[2])%5)+1
     return u
 
+#Main
 if __name__ == '__main__':
 
     egen = ExcelGen('IMDB Movies.xlsx')
